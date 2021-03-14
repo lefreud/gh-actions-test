@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # The file names of the decrypted files, the encrypted file name contains the .gpg extension
-FILE_NAMES=('secret1.json', 'secret2.txt')
+FILE_NAMES=('secret1.json' 'secret2.txt')
 
 for file_name in "${FILE_NAMES[@]}"
 do

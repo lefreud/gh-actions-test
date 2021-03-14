@@ -12,23 +12,19 @@ jobs:
       - name: Send greeting
         run: echo "Hello world"
 
-  checkout:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
 
   build_docker_image:
-    needs: [checkout]
     runs-on: ubuntu-20.04
     name: Build Docker image
     steps:
+      - uses: actions/checkout@v2
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
 
   install_npm_project:
-    needs: [ checkout ]
     runs-on: ubuntu-20.04
     name: Install NPM project
     steps:
+      - uses: actions/checkout@v2
       - run: (cd frontend && npm ci)
 

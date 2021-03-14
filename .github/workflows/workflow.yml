@@ -30,7 +30,7 @@ jobs:
           FILE_NAMES=('secret1.json')
           for file_name in "${FILE_NAMES[@]}"
           do
-            gpg --quiet --batch --yes --decrypt --passphrase="DECRYPTION_PASSPHRASE" \
+            gpg --quiet --batch --yes --decrypt --passphrase="$DECRYPTION_PASSPHRASE" \
               --output "./$file_name" "$file_name.gpg"
           done
         env:

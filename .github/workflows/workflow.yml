@@ -19,16 +19,8 @@ jobs:
     name: Build and test Docker image
     steps:
       - uses: actions/checkout@v2
-      - name: Decrypt secret files
-        run: |
-          FILE_NAMES=('secret1.json' 'secret2.txt')
-          for file_name in "${FILE_NAMES[@]}"
-          do
-            gpg --quiet --batch --yes --decrypt --passphrase="$DECRYPTION_PASSPHRASE" \
-              --output "./$file_name" "$file_name.gpg"
-          done
-        env:
-          DECRYPTION_PASSPHRASE: ${{ secrets.DECRYPTION_PASSPHRASE }}
+      - name: Create abc file
+        run: echo "${{ secrets.SECRET_FILE_ABC }}" > abc.txt && cat abc.txt
       - name: Output secret files content
         run: cat secret1.json secret2.txt
       - name: Install NPM dependencies

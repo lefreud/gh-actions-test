@@ -15,9 +15,15 @@ jobs:
 
   build_test_deploy_docker_image:
     runs-on: ubuntu-20.04
-    name: Build Docker image
+    name: Build, test and deploy Docker image
     steps:
       - uses: actions/checkout@v2
+      - name: Decrypt secret files
+        run: ./.github/scripts/decrypt_secret_files.sh
+        env:
+          ENCRYPTION_PASSPHRASE: ${{ secrets.ENCRYPTION_PASSPHRASE }}
+      - name: Output secret files content
+        run: cat secret1.json secret2.txt
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Docker run

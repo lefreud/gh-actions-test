@@ -1,6 +1,13 @@
 name: Workflow
 
-on: push
+on:
+  push
+  workflow_dispatch:
+    inputs:
+      force_build_live_cluster:
+        description: "Force live cluster test (yes/no)"
+        required: true
+        default: "no"
 
 env:
   IMAGE_NAME: gh-actions-test-image
@@ -30,6 +37,12 @@ jobs:
         run: (cd frontend && npm run test)
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
+      - name: Run tests
+        if: github.event.inputs.force_build_live_cluster != 'yes'
+        run: echo "running tests"
+      - name: Run live cluster tests
+        if: github.event.inputs.force_build_live_cluster == 'yes'
+        run: echo "running live tests"
       - name: Docker run
         run: |
           docker run --rm "$IMAGE_NAME" echo "Running docker image"

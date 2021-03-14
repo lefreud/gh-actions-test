@@ -2,10 +2,20 @@ name: Workflow
 
 on: push
 
+env:
+  IMAGE_NAME: gh-actions-test-image
+
 jobs:
   greetings:
     runs-on: ubuntu-20.04
     steps:
       - name: Send greeting
         run: echo "Hello world"
+
+  build_docker_image:
+    runs-on: ubuntu-20.04
+    name: Build Docker image
+    steps:
+      - name: Docker build
+        run: docker --version
 

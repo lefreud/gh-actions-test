@@ -11,15 +11,9 @@ on:
 
 env:
   IMAGE_NAME: gh-actions-test-image
+  TAGGED_VERSION_COMMIT: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
 jobs:
-  greetings:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Send greeting
-        run: echo "Hello world"
-
-
   test_docker_image:
     runs-on: ubuntu-20.04
     name: Build and test Docker image
@@ -44,17 +38,17 @@ jobs:
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Run tests
-        if: github.event.inputs.force_build_live_cluster != 'yes' && !startsWith(github.ref, 'refs/tags/v')
+        if: github.event.inputs.force_build_live_cluster != 'yes' && !TAGGED_VERSION_COMMIT
         run: echo "running tests"
       - name: Run live cluster tests
-        if: github.event.inputs.force_build_live_cluster == 'yes' || startsWith(github.ref, 'refs/tags/v')
+        if: github.event.inputs.force_build_live_cluster == 'yes' || TAGGED_VERSION_COMMIT
         run: echo "running live tests"
       - name: Docker run
         run: |
           docker run --rm "$IMAGE_NAME" echo "Running docker image"
           docker run --rm "$IMAGE_NAME" echo "Wassup"
       - name: Deploy
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: TAGGED_VERSION_COMMIT
         run: echo "Deploying..."
 
 

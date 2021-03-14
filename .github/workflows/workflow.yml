@@ -17,5 +17,11 @@ jobs:
     name: Build Docker image
     steps:
       - name: Docker build
-        run: docker --version
+        run: docker build --tag "$IMAGE_NAME" .
+
+  install_npm_project:
+    runs-on: ubuntu-20.04
+    name: Install NPM project
+    steps:
+      - run: (cd frontend && npm ci)
 

@@ -39,7 +39,7 @@ jobs:
         run: docker build --tag "$IMAGE_NAME" .
       - name: Run tests
         if: github.event.inputs.force_build_live_cluster != 'yes'
-        run: echo "running tests"
+        run: echo "running tests" && exit 1
       - name: Run live cluster tests
         if: github.event.inputs.force_build_live_cluster == 'yes'
         run: echo "running live tests"

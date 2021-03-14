@@ -38,17 +38,17 @@ jobs:
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Run tests
-        if: github.event.inputs.force_build_live_cluster != 'yes' && !TAGGED_VERSION_COMMIT
+        if: github.event.inputs.force_build_live_cluster != 'yes' && !env.TAGGED_VERSION_COMMIT
         run: echo "running tests"
       - name: Run live cluster tests
-        if: github.event.inputs.force_build_live_cluster == 'yes' || TAGGED_VERSION_COMMIT
+        if: github.event.inputs.force_build_live_cluster == 'yes' || env.TAGGED_VERSION_COMMIT
         run: echo "running live tests"
       - name: Docker run
         run: |
           docker run --rm "$IMAGE_NAME" echo "Running docker image"
           docker run --rm "$IMAGE_NAME" echo "Wassup"
       - name: Deploy
-        if: TAGGED_VERSION_COMMIT
+        if: env.TAGGED_VERSION_COMMIT
         run: echo "Deploying..."
 
 

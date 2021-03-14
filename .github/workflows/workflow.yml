@@ -13,9 +13,9 @@ jobs:
         run: echo "Hello world"
 
 
-  build_test_deploy_docker_image:
+  test_docker_image:
     runs-on: ubuntu-20.04
-    name: Build, test and deploy Docker image
+    name: Build and test Docker image
     steps:
       - uses: actions/checkout@v2
       - name: Decrypt secret files
@@ -24,18 +24,16 @@ jobs:
           ENCRYPTION_PASSPHRASE: ${{ secrets.ENCRYPTION_PASSPHRASE }}
       - name: Output secret files content
         run: cat secret1.json secret2.txt
+      - name: Install NPM dependencies
+        run: (cd frontend && npm ci)
+      - name: Run frontend unit tests
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Docker run
         run: |
           docker run --rm "$IMAGE_NAME" echo "Running docker image"
           docker run --rm "$IMAGE_NAME" echo "Wassup"
+      - name: Deploy
+        run: echo "$GITHUB_REF"
 
-
-  install_npm_project:
-    runs-on: ubuntu-20.04
-    name: Install NPM project
-    steps:
-      - uses: actions/checkout@v2
-      - run: (cd frontend && npm ci)
 

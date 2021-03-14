@@ -27,6 +27,7 @@ jobs:
       - name: Install NPM dependencies
         run: (cd frontend && npm ci)
       - name: Run frontend unit tests
+        run: (cd frontend && npm run test)
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Docker run

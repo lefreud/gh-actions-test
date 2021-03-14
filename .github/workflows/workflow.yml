@@ -13,13 +13,18 @@ jobs:
         run: echo "Hello world"
 
 
-  build_docker_image:
+  build_test_deploy_docker_image:
     runs-on: ubuntu-20.04
     name: Build Docker image
     steps:
       - uses: actions/checkout@v2
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
+      - name: Docker run
+        run: |
+          docker run --rm "$IMAGE_NAME" echo "Running docker image"
+          docker run --rm "$IMAGE_NAME" echo "Wassup"
+
 
   install_npm_project:
     runs-on: ubuntu-20.04

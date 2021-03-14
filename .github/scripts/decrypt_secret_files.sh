@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # The file names of the decrypted files, the encrypted file name contains the .gpg extension
 FILE_NAMES=('secret1.json', 'secret2.txt')

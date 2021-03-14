@@ -1,0 +1,11 @@
+name: Workflow
+
+on: push
+
+jobs:
+  greetings:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Send greeting
+        run: echo "Hello world"
+

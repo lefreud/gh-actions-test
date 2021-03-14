@@ -44,10 +44,10 @@ jobs:
       - name: Docker build
         run: docker build --tag "$IMAGE_NAME" .
       - name: Run tests
-        if: github.event.inputs.force_build_live_cluster != 'yes'
+        if: github.event.inputs.force_build_live_cluster != 'yes' && !startsWith(github.ref, 'refs/tags/v')
         run: echo "running tests"
       - name: Run live cluster tests
-        if: github.event.inputs.force_build_live_cluster == 'yes'
+        if: github.event.inputs.force_build_live_cluster == 'yes' || startsWith(github.ref, 'refs/tags/v')
         run: echo "running live tests"
       - name: Docker run
         run: |

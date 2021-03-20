@@ -20,13 +20,6 @@ jobs:
     name: Build and test Docker image
     steps:
       - uses: actions/checkout@v2
-      - name: Create abc file
-        run: |
-          echo "$SECRET_FILE_ABC" > abc.txt
-        env:
-          SECRET_FILE_ABC: ${{ secrets.SECRET_FILE_ABC }}
-      - name: Output secret files content
-        run: cat secret1.json secret2.txt
       - name: Install NPM dependencies
         run: (cd frontend && npm ci)
       - name: Run frontend unit tests
